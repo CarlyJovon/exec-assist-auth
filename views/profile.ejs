@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+    <title>Executive Assist</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+<div class="container">
+
+    <div class="page-header text-center">
+         <img src="/img/the-exec-assist-banner.png" alt="The Executive Assist">
+
+        <h1><span class="fa fa-check-square"></span>Task Dashboard</h1>
+        <p>Executive schedules, tasks, and notes in one place.</p>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Profile</h3>
+
+                <% if (user.local.email) { %>
+                    <p>
+                        <!-- <strong>id</strong>: <%= user._id %><br> -->
+                        <strong>email</strong>: <%= user.local.email %><br>
+                        <!-- <strong>password</strong>: <%= user.local.password %> -->
+                    </p>
+
+                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
+                <% } else { %>
+                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
+                <% } %>
+
+            </div>
+
+        </div>
+
+        <!-- EXECUTIVE TASKS + NOTES (should display on the right)-->
+        <div class="col-sm-6">
+          <!-- <h3>Executive Assistant Tasks </h3> -->
+          <ul class="tasks">
+          <% for(var i=0; i<tasks.length; i++) {%>
+            <li class="task-items">
+              <span><%= tasks[i].date %></span>
+              <span><%= tasks[i].task %></span>
+              <span><%= tasks[i].note %></span>
+              <span><i data-id="<%= tasks[i]._id %>" class="fa fa-trash delete-task" aria-hidden="true"></i></span>
+            </li>
+          <% } %>
+          </ul>
+
+          <h2>Add a Task</h2>
+        <% if (user.local.email) { %>
+          <form action="/tasks" method="POST">
+            <div class="form-elements">
+                <label>Date:</label>
+                <input type="date" name="date" class="form-items" required> 
+            </div>
+             <div class="form-elements">
+                <label>Task:</label>
+                <input type="text" palcehoder="Schedule Annnual Board Meeting" name="task" class="form-items" required> 
+            </div>
+             <div class="form-elements">
+                <label>Notes:</label>
+                <input type="text" placeholder="Include audited financial reports on the calendar invitation" name="note" class="form-items"> 
+            </div>
+            <button type="submit" class="btn btn-primary">Add Task</button>
+          </form>
+        </div>
+        <% } %>
+
+</div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
